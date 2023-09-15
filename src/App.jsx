@@ -14,15 +14,18 @@ import { Register } from "../src/pages/pages.register";
 import Beranda from "./pages/pages.beranda";
 import { Pegawai } from "./pages/pages.pegawai";
 import { DaftarPegawai } from "./pages/pages.daftarPegawai";
+import { PersisPage } from "./pages/pages.persist";
 
 // create route
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<RootElement />}>
-        <Route index element={<Beranda />} />
-        <Route path="pegawai" element={<Pegawai />}>
-          <Route index element={<DaftarPegawai />} />
+      <Route path="/" element={<PersisPage />}>
+        <Route element={<RootElement />}>
+          <Route index element={<Beranda />} />
+          <Route path="pegawai" element={<Pegawai />}>
+            <Route index element={<DaftarPegawai />} />
+          </Route>
         </Route>
       </Route>
       <Route path="login" element={<Login />} />

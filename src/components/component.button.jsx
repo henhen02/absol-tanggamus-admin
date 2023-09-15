@@ -1,5 +1,5 @@
 import React from "react";
-import * as AiIcon from "react-icons/ai";
+import * as Icon from "react-icons/md";
 
 export const LoginButton = ({ action }) => {
   return (
@@ -31,10 +31,10 @@ export const DetailButton = ({ action }) => {
   return (
     <>
       <button
-        className="flex flex-row justify-center items-center bg-blue-500 hover:bg-blue-700 text-white font-extralight py-0.5 px-2 rounded"
+        className="flex flex-row font-medium items-center bg-blue-500 hover:bg-blue-700 text-white py-1 px-5 rounded text-sm"
         onClick={action}
       >
-        <AiIcon.AiOutlineEye size={14} className="mr-1" />
+        <Icon.MdRemoveRedEye size={14} className="mr-1" />
         Lihat
       </button>
     </>
@@ -45,10 +45,10 @@ export const EditButton = ({ action }) => {
   return (
     <>
       <button
-        className="flex flex-row justify-center items-center bg-green-500 hover:bg-green-700 text-white font-extralight py-0.5 px-3 rounded"
+        className="flex flex-row font-medium items-center bg-green-500 hover:bg-green-700 text-white py-1 px-5 rounded text-sm"
         onClick={action}
       >
-        <AiIcon.AiOutlineEdit size={14} className="mr-1" />
+        <Icon.MdEdit size={14} className="mr-1" />
         Edit
       </button>
     </>
@@ -59,10 +59,10 @@ export const DeleteButton = ({ action }) => {
   return (
     <>
       <button
-        className="flex flex-row justify-center items-center bg-red-500 hover:bg-red-700 text-white font-extralight py-0.5 px-1 rounded"
+        className="flex flex-row font-medium items-center bg-red-500 hover:bg-red-700 text-white py-1 px-5 rounded text-sm"
         onClick={action}
       >
-        <AiIcon.AiOutlineDelete size={14} className="mr-1" />
+        <Icon.MdDelete size={14} className="mr-1" />
         Hapus
       </button>
     </>
