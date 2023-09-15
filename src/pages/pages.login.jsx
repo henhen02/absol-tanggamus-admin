@@ -2,7 +2,7 @@ import React from "react";
 import { InputColumn } from "../components/component.input";
 import { LoginButton } from "../components/component.button";
 
-const Login = () => {
+export const Login = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center w-full h-screen space-y-11 pb-10">
@@ -45,5 +45,3 @@ const Login = () => {
     </>
   );
 };
-
-export default Login;

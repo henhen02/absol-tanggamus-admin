@@ -5,7 +5,7 @@ import React from "react";
 import { InputColumn } from "../components/component.input";
 import { RegisterButton } from "../components/component.button";
 
-const Register = () => {
+export const Register = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center w-full h-screen space-y-11 pb-10">
@@ -60,5 +60,3 @@ const Register = () => {
     </>
   );
 };
-
-export default Register;
