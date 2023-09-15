@@ -40,5 +40,16 @@ export const useNotif = () => {
     MySwal.close();
   };
 
-  return { successNotif, errorNotif, warningNotif, infoNotif, closeNotif };
+  const loadingNotif = () => {
+    MySwal.showLoading();
+  };
+
+  return {
+    successNotif,
+    errorNotif,
+    warningNotif,
+    infoNotif,
+    closeNotif,
+    loadingNotif,
+  };
 };

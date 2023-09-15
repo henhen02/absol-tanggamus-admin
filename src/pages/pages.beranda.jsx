@@ -5,12 +5,12 @@ import {
 } from "../components/component.button";
 import { useAbsen } from "../hooks/useAbsen";
 import {
+  compareTime,
   convertDate,
+  convertDateForIinput,
   convertTime,
-  convertTimeForIinput,
+  convertTimewithReducer,
 } from "../helpers/convertDate";
-import withReactContent from "sweetalert2-react-content";
-import Swal from "sweetalert2";
 import { useState } from "react";
 import {
   Dialog,
@@ -19,9 +19,18 @@ import {
   DialogHeader,
   Button,
 } from "@material-tailwind/react";
+import { useAxiosPrivate } from "../hooks/useAxiosPrivate";
+import { useNotif } from "../hooks/useNotif";
+import { allAbsenEndpoint } from "../helpers/api";
+import { useUser } from "../hooks/useUser";
+import { mutate } from "swr";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const Beranda = () => {
   const { data, error, isLoading } = useAbsen();
+
+  const { user } = useUser();
 
   const [dataInput, setData] = useState({
     tanggal: new Date().toISOString(),
@@ -30,17 +39,73 @@ const Beranda = () => {
     jamKeluar: "17:00",
   });
 
-  const hancleChange = (e) => {
-    setData({ ...dataInput, [e.target.name]: e.target.value });
-    console.log(dataInput);
-  };
+  const axiosPrivate = useAxiosPrivate();
+  const notif = withReactContent(Swal);
 
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(!open);
 
-  const notif = withReactContent(Swal);
-  const handleTambahAbsen = () => {};
+  const { successNotif, closeNotif, errorNotif, loadingNotif } = useNotif();
+
+  const hancleChange = (e) => {
+    setData({ ...dataInput, [e.target.name]: e.target.value });
+  };
+
+  const handleTambahAbsen = async () => {
+    handleOpen();
+    if (
+      !compareTime(dataInput.jamMasuk, dataInput.jamBatas, dataInput.jamKeluar)
+    ) {
+      errorNotif("Error", "Jam Keluar tidak boleh lebih kecil dari jam masuk");
+      return;
+    }
+    try {
+      loadingNotif();
+      const convertedDataInput = convertDateForIinput(
+        dataInput.tanggal,
+        dataInput.jamMasuk,
+        dataInput.jamBatas,
+        dataInput.jamKeluar
+      );
+
+      await axiosPrivate.post(allAbsenEndpoint, convertedDataInput, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${user?.accessToken}`,
+        },
+      });
+
+      mutate(allAbsenEndpoint);
+
+      closeNotif();
+      successNotif("Success", "Absen Berhasil Ditambahkan");
+    } catch (error) {
+      console.log(error);
+      closeNotif();
+      errorNotif("Error", error.response.data.message);
+    }
+  };
+
+  const handleDeleteAbsen = async (id) => {
+    try {
+      loadingNotif();
+      await axiosPrivate.delete(`${allAbsenEndpoint}/${id}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${user?.accessToken}`,
+        },
+      });
+
+      mutate(allAbsenEndpoint);
+
+      closeNotif();
+
+      successNotif("Success", "Absen Berhasil Dihapus");
+    } catch (error) {
+      closeNotif();
+      errorNotif("Error", error.message);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -108,7 +173,25 @@ const Beranda = () => {
                     <td className="flex flex-row justify-center gap-3 py-1">
                       <DetailButton />
                       <EditButton />
-                      <DeleteButton />
+                      <DeleteButton
+                        action={() => {
+                          notif
+                            .fire({
+                              title: "Apakah anda yakin?",
+                              text: "Yakin ingin menghapus absen ini?",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonText: "Iyaaa",
+                              cancelButtonText: "Ngga",
+                              reverseButtons: true,
+                            })
+                            .then((result) => {
+                              if (result.isConfirmed) {
+                                handleDeleteAbsen(jadwal.id);
+                              }
+                            });
+                        }}
+                      />
                     </td>
                   </tr>
                 );
@@ -122,13 +205,7 @@ const Beranda = () => {
         <DialogBody divider>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col">
-              <label
-                htmlFor="jamMasuk"
-                className="text-left"
-                onClick={() =>
-                  convertTimeForIinput(dataInput.tanggal, dataInput.jamMasuk)
-                }
-              >
+              <label htmlFor="jamMasuk" className="text-left">
                 Tanggal
               </label>
               <input
@@ -157,18 +234,15 @@ const Beranda = () => {
               <label htmlFor="jamBatas" className="text-left">
                 Batas Absen
               </label>
-              {/* <p>
-                {convertTimeForIinput(
-                  dataInput.tanggal,
-                  dataInput.jamMasuk
-                ).toString()}
-              </p> */}
+              <p>
+                {convertTimewithReducer(dataInput.jamMasuk, dataInput.jamBatas)}
+              </p>
               <input
                 type="range"
                 className="border-2 border-gray-300 p-2 rounded-md"
                 name="jamBatas"
                 id="jamBatas"
-                min={0}
+                min={1}
                 max={10}
                 step={1}
                 value={dataInput?.jamBatas}
@@ -199,7 +273,7 @@ const Beranda = () => {
           >
             <span>Cancel</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
+          <Button variant="gradient" color="green" onClick={handleTambahAbsen}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>
