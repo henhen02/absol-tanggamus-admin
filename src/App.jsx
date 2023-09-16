@@ -12,12 +12,12 @@ import { RootElement } from "../src/routes/RootElements";
 import { Login } from "../src/pages/pages.login";
 import { Register } from "../src/pages/pages.register";
 import { Profil } from "./pages/pages.profil";
-import { DaftarJadwal } from "./pages/pages.daftarjadwal";
 import { DetailJadwal } from "./pages/pages.detailJadwal";
 import { Pegawai } from "./pages/pages.pegawai";
 import { DaftarPegawai } from "./pages/pages.daftarPegawai";
 import { PersisPage } from "./pages/pages.persist";
 import { DetailPegawai } from "./pages/pages.detailPegawai";
+import Beranda from "./pages/pages.beranda";
 
 // create route
 const routes = createBrowserRouter(
@@ -26,7 +26,6 @@ const routes = createBrowserRouter(
       <Route path="/" element={<PersisPage />}>
         <Route element={<RootElement />}>
           <Route index element={<Beranda />} />
-          <Route index element={<DaftarJadwal />} />
           <Route path=":id" element={<DetailJadwal />} />
           <Route path="pegawai" element={<Pegawai />}>
             <Route index element={<DaftarPegawai />} />

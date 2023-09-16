@@ -117,11 +117,9 @@ const Beranda = () => {
 
   return (
     <>
-      <div className="flex flex-col items-start justify-items-start min-h-screen pl-3 pt-3 pr-3 min-w-3/4 mx-auto ">
-        <h1 className="font-bold text-xl pb-5 mx-auto mt-9">
-          DAFTAR JADWAL ABSEN
-        </h1>
-        <div className="md:w-3/4 mx-auto ">
+      <div className="w-4/5">
+        <h1 className="font-bold text-xl pb-5 mt-9">DAFTAR JADWAL ABSEN</h1>
+        <div className="">
           <div className="flex items-center gap-3 mb-4">
             <button
               className="bg-green-500 px-8 py-2 text-white rounded-full hover:bg-green-600 transition-all"
@@ -154,6 +152,14 @@ const Beranda = () => {
               </tr>
             </thead>
             <tbody>
+              {data.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    Tidak ada data
+                  </td>
+                </tr>
+              )}
+
               {data.map((jadwal, index) => {
                 return (
                   <tr className="even:bg-orange-100" key={index}>
