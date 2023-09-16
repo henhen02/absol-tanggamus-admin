@@ -2,33 +2,38 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-// dummy (remove this line after API is ready)
-import { daftarPegawai } from "../dump/daftarPegawai";
+// import data dummy
+import { daftarJadwal } from "../dump/daftarJadwal";
 
 // import components
 import {
-  DetailButton,
   DeleteButton,
+  DetailButton,
   EditButton,
 } from "../components/component.button";
 
-export const DaftarPegawai = () => {
+export const DaftarJadwal = () => {
   const navigate = useNavigate();
   return (
     <>
       <table className="table-auto w-full">
         <caption className="font-bold text-xl pb-5">
-          Daftar Pegawai Pemda Tanggamus
+          Daftar Jadwal Absen Pegawai Pemda Tanggamus
         </caption>
         <thead>
           <tr>
             <th className="py-2 bg-orange-400 font-semibold text-white">No</th>
-            <th className="py-2 bg-orange-400 font-semibold text-white">NIP</th>
-            <th className="py-2 bg-orange-400 font-semibold text-white text-left">
-              Nama
+            <th className="py-2 bg-orange-400 font-semibold text-white">
+              Tanggal
             </th>
-            <th className="py-2 bg-orange-400 font-semibold text-white text-left">
-              Email
+            <th className="py-2 bg-orange-400 font-semibold text-white">
+              Jam Masuk
+            </th>
+            <th className="py-2 bg-orange-400 font-semibold text-white">
+              Jam Batas
+            </th>
+            <th className="py-2 bg-orange-400 font-semibold text-white">
+              Jam Keluar
             </th>
             <th className="py-2 bg-orange-400 font-semibold text-white">
               Aksi
@@ -36,17 +41,18 @@ export const DaftarPegawai = () => {
           </tr>
         </thead>
         <tbody>
-          {daftarPegawai?.map((item, index) => {
+          {daftarJadwal.map((jadwal, index) => {
             return (
               <tr className="even:bg-orange-100" key={index}>
                 <td className="text-center">{index + 1}</td>
-                <td className="text-center">{item.nip}</td>
-                <td>{item.nama}</td>
-                <td>{item.email}</td>
+                <td className="text-center">{jadwal.tanggal}</td>
+                <td className="text-center">{jadwal.jamMasuk}</td>
+                <td className="text-center">{jadwal.jamBatas}</td>
+                <td className="text-center">{jadwal.jamKeluar}</td>
                 <td className="flex flex-row items-center justify-center p-1 space-x-4">
                   <DetailButton
                     action={() => {
-                      navigate(`${item.id}`);
+                      navigate(`${jadwal.id}`);
                     }}
                   />
                   <EditButton />

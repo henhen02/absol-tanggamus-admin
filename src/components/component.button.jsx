@@ -41,7 +41,11 @@ export const DetailButton = ({ action }) => {
   );
 };
 
-export const EditButton = ({ action }) => {
+export const EditButton = ({
+  action = () => {
+    alert("Coming soon :)");
+  },
+}) => {
   return (
     <>
       <button
@@ -55,7 +59,11 @@ export const EditButton = ({ action }) => {
   );
 };
 
-export const DeleteButton = ({ action }) => {
+export const DeleteButton = ({
+  action = () => {
+    alert("Coming soon :)");
+  },
+}) => {
   return (
     <>
       <button
