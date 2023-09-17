@@ -4,6 +4,7 @@ import { useAllUser } from "../hooks/useAllUser";
 import { useAbsen } from "../hooks/useAbsen";
 import { useParams } from "react-router-dom";
 import { convertDate, convertTime } from "../helpers/convertDate";
+import { Chip } from "@material-tailwind/react";
 
 export const DetailJadwal = () => {
   const { id } = useParams();
@@ -12,6 +13,23 @@ export const DetailJadwal = () => {
 
   const headerTable = ["No", "Nama", "NIP", "Status"];
 
+  const switchChipsColor = (status) => {
+    switch (status) {
+      case 1:
+        return "blue";
+      case 2:
+        return "green";
+      case 3:
+        return "amber";
+      case 4:
+        return "red";
+      case 5:
+        return "cyan";
+      default:
+        return "black";
+    }
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -19,6 +37,7 @@ export const DetailJadwal = () => {
   if (error) {
     return <div>Error</div>;
   }
+  console.log(data);
 
   return (
     <>
@@ -65,7 +84,7 @@ export const DetailJadwal = () => {
             </tr>
           </thead>
           <tbody>
-            {/* {data.length === 0 && (
+            {data?.history?.lenght === 0 && (
               <tr>
                 <td colSpan={6} className="text-center">
                   Tidak ada data
@@ -73,16 +92,21 @@ export const DetailJadwal = () => {
               </tr>
             )}
 
-            {data.map((user, index) => {
+            {data?.history.map((user, index) => {
               return (
                 <tr className="even:bg-orange-100" key={index}>
                   <td className="text-center py-2">{index + 1}</td>
-                  <td className="text-center py-2">{user?.nama}</td>
-                  <td className="text-center py-2">{user?.nip}</td>
-                  <td className="text-center py-2">{user?.history.}</td>
+                  <td className="text-center py-2">{user?.user?.nama}</td>
+                  <td className="text-center py-2">{user?.user?.nip}</td>
+                  <td className="text-center py-2 w-20">
+                    <Chip
+                      value={user?.statusAbsen?.keterangan}
+                      color={switchChipsColor(user?.statusAbsen?.id)}
+                    />
+                  </td>
                 </tr>
               );
-            })} */}
+            })}
           </tbody>
         </table>
       </div>
