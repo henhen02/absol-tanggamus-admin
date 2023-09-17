@@ -26,9 +26,12 @@ import { useUser } from "../hooks/useUser";
 import { mutate } from "swr";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useNavigate } from "react-router-dom";
 
 const Beranda = () => {
   const { data, error, isLoading } = useAbsen();
+
+  const navigate = useNavigate();
 
   const { user } = useUser();
 
@@ -177,8 +180,11 @@ const Beranda = () => {
                       {convertTime(jadwal.jamKeluar)}
                     </td>
                     <td className="flex flex-row justify-center gap-3 py-1">
-                      <DetailButton />
-                      <EditButton />
+                      <DetailButton
+                        action={() => {
+                          navigate(`/${jadwal.id}`);
+                        }}
+                      />
                       <DeleteButton
                         action={() => {
                           notif

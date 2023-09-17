@@ -24,14 +24,14 @@ const SideBar = () => {
           <div className="flex flex-col flex-1 items-start justify-start w-full space-y-5 pt-10 px-5">
             <NavLink
               to={"/"}
-              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md focus:bg-orange-500 active:bg-orange-500 hover:bg-orange-200"
+              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md hover:bg-orange-200"
             >
               <FaIcon.FaHome />
               Beranda
             </NavLink>
             <NavLink
               to={"/pegawai"}
-              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md focus:bg-orange-500 active:bg-orange-500 hover:bg-orange-200"
+              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md hover:bg-orange-200"
             >
               <FaIcon.FaUsers />
               Pegawai
@@ -40,14 +40,14 @@ const SideBar = () => {
           <div className="flex flex-col h-fit w-full justify-start items-start space-y-2 pb-10 px-5">
             <NavLink
               to={"/login"}
-              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md focus:bg-orange-500 active:bg-orange-500 hover:bg-orange-200"
+              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md hover:bg-orange-200"
             >
               <FaIcon.FaSignInAlt />
               Logout
             </NavLink>
             <NavLink
               to={"/profil"}
-              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md focus:bg-orange-500 active:bg-orange-500 hover:bg-orange-200"
+              className="flex flex-row items-center justify-start w-full px-5 py-2 gap-3 text-white rounded-md hover:bg-orange-200"
             >
               <FaIcon.FaUser />
               Profil

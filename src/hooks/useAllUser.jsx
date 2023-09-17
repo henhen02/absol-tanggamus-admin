@@ -1,9 +1,9 @@
 import useSWR from "swr";
 import { useAxiosPrivate } from "./useAxiosPrivate";
-import { allAbsenEndpoint } from "../helpers/api";
+import { allAbsenEndpoint, allUserEndpoint } from "../helpers/api";
 import { useUser } from "./useUser";
 
-export const useAbsen = (absenId) => {
+export const useAllUser = () => {
   const axiosPrivate = useAxiosPrivate();
 
   const { user } = useUser();
@@ -17,17 +17,7 @@ export const useAbsen = (absenId) => {
     });
     return response.data?.data;
   };
-
-  if (absenId) {
-    const { data, error, isLoading } = useSWR(
-      `${allAbsenEndpoint}/${absenId}`,
-      fetcher
-    );
-
-    return { data, error, isLoading };
-  }
-
-  const { data, error, isLoading } = useSWR(allAbsenEndpoint, fetcher);
+  const { data, error, isLoading } = useSWR(allUserEndpoint, fetcher);
 
   return { data, error, isLoading };
 };
