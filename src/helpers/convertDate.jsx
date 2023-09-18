@@ -10,10 +10,11 @@ export const convertTime = (date) => {
   return dateObj;
 };
 export const convertDateForIinput = (date, timeNow, extraTime, timeAfter) => {
-  const convertedDate = new Date(date).toISOString().split("T")[0];
-  const convertedTimeNow = `${timeNow}:00`;
-  const convertedTimeAfter = convertTimewithExtra(timeNow, extraTime);
-  const convertedTimeAfter2 = `${timeAfter}:00`;
+  const convertedDate = date;
+  const convertedTimeNow = date + " " + timeNow;
+  const convertedTimeAfter =
+    date + " " + convertTimewithExtra(timeNow, extraTime);
+  const convertedTimeAfter2 = date + " " + timeAfter;
 
   return {
     tanggal: convertedDate,
@@ -26,7 +27,7 @@ export const convertTimewithExtra = (timeNow, timeAfter) => {
   let [hours, minutes] = timeNow.split(":");
   let hoursAfter = parseInt(hours) + parseInt(timeAfter);
 
-  return `${hoursAfter}:${minutes}:00`;
+  return `${hoursAfter}:${minutes}`;
 };
 export const convertTimewithReducer = (timeNow, timeAfter) => {
   let [hours, minutes] = timeNow.split(":");

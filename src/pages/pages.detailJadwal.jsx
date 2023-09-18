@@ -11,7 +11,7 @@ export const DetailJadwal = () => {
 
   const { data, error, isLoading } = useAbsen(id);
 
-  const headerTable = ["No", "Nama", "NIP", "Status"];
+  const headerTable = ["No", "Nama", "NIP", "Jam Absen", "Status"];
 
   const switchChipsColor = (status) => {
     switch (status) {
@@ -98,7 +98,10 @@ export const DetailJadwal = () => {
                   <td className="text-center py-2">{index + 1}</td>
                   <td className="text-center py-2">{user?.user?.nama}</td>
                   <td className="text-center py-2">{user?.user?.nip}</td>
-                  <td className="text-center py-2 w-20">
+                  <td className="text-center py-2">
+                    {user?.jamAbsen ? convertTime(user?.jamAbsen) : "-"}
+                  </td>
+                  <td className="text-center py-2 w-10 ">
                     <Chip
                       value={user?.statusAbsen?.keterangan}
                       color={switchChipsColor(user?.statusAbsen?.id)}

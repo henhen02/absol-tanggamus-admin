@@ -27,6 +27,7 @@ import { mutate } from "swr";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
 const Beranda = () => {
   const { data, error, isLoading } = useAbsen();
@@ -34,9 +35,10 @@ const Beranda = () => {
   const navigate = useNavigate();
 
   const { user } = useUser();
+  const [startDate, setStartDate] = useState(new Date());
 
   const [dataInput, setData] = useState({
-    tanggal: new Date().toISOString(),
+    tanggal: new Date().toLocaleDateString("en-CA"),
     jamMasuk: "08:00",
     jamBatas: "2",
     jamKeluar: "17:00",
@@ -70,6 +72,8 @@ const Beranda = () => {
         dataInput.jamBatas,
         dataInput.jamKeluar
       );
+
+      console.log(convertedDataInput);
 
       await axiosPrivate.post(allAbsenEndpoint, convertedDataInput, {
         withCredentials: true,
@@ -216,17 +220,29 @@ const Beranda = () => {
         <DialogHeader>Tambah Absen</DialogHeader>
         <DialogBody divider>
           <div className="flex flex-col gap-3">
+            <ul className="list-disc list-inside bg-red-50 p-2 rounded-sm">
+              <li className="text-sm text-red-500 ">
+                Pegawai yang belum memiliki akun tidak bisa mengikuti absensi
+              </li>
+              <li className="text-sm text-red-500">
+                Admin harus memastikan semua pegawai sudah memiliki akun
+              </li>
+              <li className="text-sm text-red-500">
+                1 hari hanya bisa membuat 1 jadwal absen
+              </li>
+            </ul>
             <div className="flex flex-col">
               <label htmlFor="jamMasuk" className="text-left">
                 Tanggal
               </label>
+
               <input
-                type="text"
-                disabled
-                defaultValue={convertDate(dataInput?.tanggal)}
-                className="border-2 border-gray-300 p-2 rounded-md cursor-not-allowed"
+                type="date"
+                min={new Date().toLocaleDateString("en-CA")}
+                className="border-2 border-gray-300 p-2 rounded-md"
                 name="tanggal"
                 id="tanggal"
+                onChange={hancleChange}
               />
             </div>
             <div className="flex flex-col">
